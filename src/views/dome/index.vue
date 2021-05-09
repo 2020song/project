@@ -1,127 +1,67 @@
 <template>
     <div>
-        <van-nav-bar fixed @click-left="$router.back()" title="小区/村组(129)" left-text="返回" left-arrow @click-right="add">
-            <template #right>
-                <van-icon name="plus" size="18" />
-            </template>
-        </van-nav-bar>
-
-
-
-
-       <van-swipe :autoplay="3000">
-             <van-swipe-item v-for="(image, index) in images" :key="index">
-               <img v-lazy="image" />
-             </van-swipe-item>
+        <van-swipe :autoplay="3000" lazy-render >
+            <van-swipe-item v-for="image in images" :key="image">
+                <img :src="image" />
+            </van-swipe-item>
         </van-swipe>
 
 
-        <van-tabs v-model="activetitle" color="#00FF7F">
-              <van-tab  title="我要学习">我要学习</van-tab>
-              <van-tab  title="我要答题">我要答题</van-tab>
-              <van-tab  title="排行榜">排行榜</van-tab>
-        </van-tabs>
+    
 
-
-
-
-        <div class="search" v-show="filterShow">
-            <van-cell-group>
-                <van-cell v-if="active == 1">
-                    <template #title>
-                        <van-tag style="margin-right:1rem;" round color="#c73e3a" @click="chooseKind(item.value)" v-for="item in kindList" :key="item.value" size="large" :plain="!search.kind.includes(item.value)">{{item.name}}</van-tag>
-                    </template>
-                </van-cell>
-                <van-cell v-if="active == 0">
-                    <template #title>
-                        <van-tag style="margin-right:1rem;" round color="#c73e3a" @click="chooseType(item.value)" v-for="item in typeList" :key="item.value" size="large" :plain="!search.type.includes(item.value)">{{item.name}}</van-tag>
-                    </template>
-                </van-cell>
-                <van-cell>
-                    <template #title>
-                        <van-tag style="margin-right:1rem;" round color="#c73e3a" @click="choosePeople(item.value)" v-for="item in peopleList" :key="item.value" size="large" :plain="!search.people.includes(item.value)">{{item.name}}</van-tag>
-                    </template>
-                </van-cell>
-            </van-cell-group>
-            <van-button color="#c73e3a" hairline block @click="filterShow = !filterShow">搜索</van-button>
-        </div>
-
-        <van-tabs @change="getList" v-model="active" type="card" animated swipeable>
-            <van-tab title="房屋">
-                <van-pull-refresh
-                    v-model="isLoading"
-                    success-text="刷新成功"
-                    @refresh="getList"
-                    >
-                        <div class="content">
-                            <van-cell is-link to="/house/houseList" v-for="item in list" :key="item.title">
-                                <template #title>
-                                    <p style="font-size:14px;color:#333">
-                                        {{item.title}} 
-                                        <van-tag type="danger" v-if="item.tag.includes(0)" style="margin-left:0.3rem">重点人员</van-tag>
-                                    </p>
-                                    <p>楼栋数量：{{item.num}} 人口数量：{{item.people}}</p>
-                                    <p>
-                                        <van-tag type="primary" v-for="ele in item.tag" :key="ele">{{houseTags[ele]}}</van-tag>
-                                    </p>
-                                </template>
-                            </van-cell>
+        <van-tabs  lazy-render v-model="activetitle" color="#00FF7F">
+              <van-tab  title="我要学习">
+                <div class="my-study-view" v-for="(item,index) in 3" :key="index">  
+                    <div class="study-view-title">
+                        <div>第一讲 关于党的近百年历史的几个问题（中）</div>
+                        <div>
+                            <span>现代教育报</span>
+                            <span>2021-04-26</span>
                         </div>
-                </van-pull-refresh>
-            </van-tab>
-            <van-tab title="人员">
-                <van-pull-refresh
-                    v-model="isLoading"
-                    success-text="刷新成功"
-                    @refresh="getList"
-                    >
-                        <div class="content">
-                            <van-cell is-link to="/house/detailUser" v-for="item in list" :key="item.title">
-                                <template #title>
-                                    <img :src="item.avatar" class="avatar" alt="">
-                                    <div>
-                                        <p style="font-size:14px;color:#333">
-                                            {{item.title}} 
-                                            <van-tag type="danger" v-if="item.tag.includes(0)" style="margin-left:0.3rem">重点人员</van-tag>
-                                        </p>
-                                        <p>
-                                            <van-icon name="phone-o" />
-                                            {{item.phone}}
-                                        </p>
-                                        <p>
-                                            <van-icon name="idcard" />
-                                            {{item.idcard}}
-                                        </p>
-                                        <p>
-                                            <van-icon name="location-o" />
-                                            {{item.address}}
-                                        </p>
-                                        <p>
-                                            <van-tag type="primary" v-for="ele in item.tag" :key="ele">{{peopleTags[ele]}}</van-tag>
-                                        </p>
-                                    </div>
-                                </template>
-                            </van-cell>
+                    </div>
+                    <div class="my-study-img">
+                        <img src="https://img01.yzcdn.cn/vant/apple-1.jpg" alt="">
+                    </div>
+                </div>
+              </van-tab>
+
+              <van-tab  title="我要答题">
+                    <div class="answer-view">
+                        <div v-for="(item,index) in 3" :key="index" class="answer-view-item">
+                            <div class="answer-view-item-img"><img src="https://img01.yzcdn.cn/vant/apple-1.jpg" alt=""></div>
+                            <div>每日答题</div>
+                            <div>太阳每天都是新的</div>
                         </div>
-                </van-pull-refresh>
-            </van-tab>
+                    </div>
+              </van-tab>
+
+              <van-tab  title="排行榜" class="my-van-flex">
+                    <van-sidebar v-model="activeKey">
+                        <van-sidebar-item title="积分" /> 
+                        <van-sidebar-item title="学时" /> 
+                        <van-sidebar-item title="课程" />
+                    </van-sidebar>
+                    <div class="sidebar-view-content" v-show="activeKey == 0">
+                        <MyLiist></MyLiist>
+                    </div>
+                    <div class="sidebar-view-content" v-show="activeKey == 1">
+                        每日答题
+                    </div>
+                    <div class="sidebar-view-content" v-show="activeKey == 2">
+                        太阳每天都是新的
+                    </div>
+              </van-tab>
         </van-tabs>
         
 
-        <van-overlay :show="filterShow" @click="filterShow = false" />
-
-
-
         <van-tabbar v-model="active" @change="switchover">
-             <van-tabbar-item badge="3" v-for="item in tabbar" :key="item.title">
+             <van-tabbar-item  v-for="item in tabbar" :key="item.title">
                      <span>{{item.title}}</span>
-                    <template #icon="">
-                      <img :src="item.img" />
+                    <template #icon="props">
+                      <img :src="props.active ? item.activeImg: item.inactiveimg" />
                     </template>
              </van-tabbar-item>
         </van-tabbar>
-
-
 
 
     </div>
@@ -129,90 +69,34 @@
 
 <script>
 import { Lazyload } from 'vant';
+import MyLiist from './compontents/list';
     export default {
         data() {
             return {
+                activeKey:0,
                 active:0,
                 activetitle:0,
+
                 tabbar :[
-                {title:'发现',img:'https://img01.yzcdn.cn/vant/cat.jpeg'},
-                {title:'课程列表',img:'https://img01.yzcdn.cn/vant/cat.jpeg'},
-                {title:'个人中心',img:'https://img01.yzcdn.cn/vant/cat.jpeg'}
+                    {title:'发现',activeImg:'https://img01.yzcdn.cn/vant/user-active.png',inactiveimg:'https://img01.yzcdn.cn/vant/user-inactive.png'},
+                    {title:'课程列表',activeImg:'https://img01.yzcdn.cn/vant/user-active.png',inactiveimg:'https://img01.yzcdn.cn/vant/user-inactive.png'},
+                    {title:'个人中心',activeImg:'https://img01.yzcdn.cn/vant/user-active.png',inactiveimg:'https://img01.yzcdn.cn/vant/user-inactive.png'}
                 ],
-
                 images: [
-                   'https://img01.yzcdn.cn/vant/apple-1.jpg',
-                   'https://img01.yzcdn.cn/vant/cat.jpeg',
-                ],
-
-
-
-
-
-                searchKey: "",
-                list:[],
-                houseTags:["重点人员","自用","仓储","出租","闲置"],
-                peopleTags:["重点人员","租住","同住","代管人"],
-                isLoading: false,
-                filterShow:false,
-                search:{
-                    type:[1,2,4],
-                    kind:[1,2],
-                    people:[0]
-                },
-                kindList:[{
-                    name:"全部",
-                    value:0
-                },{
-                    name:"租住",
-                    value:1
-                },{
-                    name:"同住",
-                    value:2
-                },{
-                    name:"代管人",
-                    value:3
-                }],
-                typeList:[{
-                    name:"全部",
-                    value:0
-                },{
-                    name:"自用",
-                    value:1
-                },{
-                    name:"仓储",
-                    value:2
-                },{
-                    name:"出租",
-                    value:3
-                },{
-                    name:"闲置",
-                    value:4
-                },{
-                    name:"网约",
-                    value:5
-                }],
-                peopleList:[{
-                    name:"全部",
-                    value:0
-                },{
-                    name:"重点人员",
-                    value:1
-                },{
-                    name:"非重点人员",
-                    value:2
-                }]
+                    'https://img.yzcdn.cn/vant/apple-1.jpg',
+                    'https://img.yzcdn.cn/vant/apple-2.jpg',
+                ]
             }
+        },
+        components:{
+            MyLiist
         },
         methods: {
 
             //切换tab跳转对应页面
             switchover(id){
-                    // console.log(id);
+                    
             },
-
-
-
 
 
             getList() {
@@ -312,6 +196,8 @@ import { Lazyload } from 'vant';
 
 <style lang="css" scoped>
 
+
+
  .my-swipe .van-swipe-item {
     color: #fff;
     font-size: 20px;
@@ -319,7 +205,10 @@ import { Lazyload } from 'vant';
     text-align: center;
     background-color: #39a9ed;
   }
-
+  .van-swipe-item>img{
+      width: 100%;
+      height: 100%;
+  }
 
   .custom-indicator {
     position: absolute;
@@ -346,6 +235,91 @@ import { Lazyload } from 'vant';
       margin-top:3rem;
   }
 
+  .my-study-view {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding:12px;
+  }
 
+    .study-view-title{
+        flex: 2;
+    }
+    .study-view-title>:nth-child(1){
+        font-size: 18px;
+        color: #000;
+        text-overflow: -o-ellipsis-lastline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
 
+    .study-view-title>:nth-child(2){
+        font-size: 14px;
+        color: rgb(128, 128, 128);
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+    .study-view-title>:nth-child(2)>:nth-child(1){
+        margin-right: 10px;
+    }
+    .my-study-img{
+        flex: 1;
+    }
+    .my-study-img>img{
+        width: 100%;
+        height: 100%;
+    }
+    .answer-view{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        background: #f5f5f5;
+        margin:24px 12px;
+    }
+    .answer-view-item{
+        background: #fff;
+        text-align: center;
+        width: 32%;
+        border-radius: 10px;
+        box-shadow: 1px 1px 9px #a7a4a4;
+    }
+    .answer-view-item>:nth-child(2){
+        font-weight: bold;
+    }
+    .answer-view-item>:nth-child(3){
+        padding: 10px 14px ;
+        font-size: 13px;
+        color: gray;
+    }
+    .answer-view-item-img{
+        height: 50px;
+        width: 50px;
+        padding: 19px 0 15px;
+        margin: 0 auto;
+    }
+    .answer-view-item-img>img{
+        width: 100%;
+        height: 100%;
+         border-radius: 100%;
+    }
+
+    .van-sidebar-item--select::before{
+        left: 95%;
+        background-color: #07c160;
+    }
+    .van-sidebar-item{
+        text-align: center;
+    }
+   .my-van-flex{
+       display: flex;
+   }
+   .sidebar-view-content{
+       width: calc(100% - 80px);
+   }
 </style>
