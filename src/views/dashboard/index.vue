@@ -33,7 +33,7 @@ export default {
       userBox:false,
       menuList:[{
         icon:"wap-home-o",
-        name:"学习系统",
+        name:"学习系统首页",
         page:"/dome/index"
       },{
         icon:"wap-home-o",
