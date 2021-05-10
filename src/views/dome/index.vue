@@ -10,7 +10,7 @@
     
 
         <van-tabs  lazy-render v-model="activetitle" color="#00FF7F">
-              <van-tab  title="我要学习">
+              <van-tab  title="我要学习啊">
                 <div class="my-study-view" v-for="(item,index) in 3" :key="index">  
                     <div class="study-view-title">
                         <div>第一讲 关于党的近百年历史的几个问题（中）</div>
